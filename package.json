@@ -1,0 +1,19 @@
+{
+  "name": "noctty",
+  "version": "0.1.0",
+  "description": "An on-chain agent that signs its silence. Phase-1 off-chain core.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "demo": "node src/demo.mjs",
+    "test": "node --test"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/GHOSTXrun/NOCTTY"
+}

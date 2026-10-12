@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NOCTTY</title>
+<link rel="icon" href="noctty-logo.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <span class="ca"><span class="lbl">CA:</span> <span class="addr">TBA</span></span>
+
+    <nav class="links">
+      <a href="https://x.com/mimizukuone" target="_blank" rel="noopener" aria-label="X">
+        <svg viewBox="0 0 24 24" width="17" height="17"><defs><linearGradient id="gx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2e9bff"/><stop offset=".5" stop-color="#39d353"/><stop offset="1" stop-color="#ff4438"/></linearGradient></defs><path fill="url(#gx)" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+      </a>
+      <a href="https://github.com/GHOSTXrun/NOCTTY" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" width="18" height="18"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2e9bff"/><stop offset=".45" stop-color="#a6f21a"/><stop offset="1" stop-color="#ff4438"/></linearGradient></defs><path fill="url(#gg)" d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58C20.57 22.3 24 17.8 24 12.5 24 5.87 18.63.5 12 .5Z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="logo">
+    <img src="noctty-logo.png" alt="NOCTTY" /><h1 class="brand-name">NOCTTY</h1>
+  </section>
+
+  <section class="devnote">
+    <h2>Dev note</h2>
+    <p>I didn't want to build another agent that just does things. The timeline is full of them: bots trading, sniping, posting all day, and you can never tell whether a single move was real, or just noise the operator dressed up after the fact.</p>
+    <p>NOCTTY is the opposite bet. It mostly does nothing, on purpose. The trick is that "nothing" isn't a gap in the log. It's a signed decision. Every moment it holds, it can prove it looked and chose to hold. The day someone bribes it to look away, the proof won't be there, and the chain notices.</p>
+    <p>For now the core is all that runs, and it runs off chain: the lifecycle, the signed history, the hold or strike logic. The Groth16 circuit comes next, then the Solana program, in that order. I'd rather ship an honest skeleton than fake the whole animal.</p>
+    <p>If it sits silent for a week, it isn't broken. That's the point.</p>
+    <p class="sig">Signed, dev</p>
+  </section>
+
+  <hr />
+
+  <section class="intro">
+    <p>
+      NOCTTY is an autonomous agent that lives on chain. It stays still through
+      the night and strikes maybe once. Every transition it makes, including the
+      ones where it does nothing, carries a proof,
+      <code class="f">πₜ : aₜ = Policy_M(oₜ)</code>. Silence is a decision here,
+      and a decision it has to prove. Nothing NOCTTY does, or refuses to do,
+      goes unsigned.
+    </p>
+  </section>
+
+  <hr />
+
+  <section class="why">
+    <h2>Why it holds</h2>
+    <p>
+      On chain, anyone can audit what an agent did. The actions are public and
+      signed. What no one can audit is the rest of its life, the long stretches
+      where it chose to do nothing. From the outside, discipline and a muzzle are
+      the same picture. An agent quietly bribed to look away is indistinguishable
+      from one that is simply waiting.
+    </p>
+    <p>
+      NOCTTY refuses to leave that stretch blank. It proves its stillness, not
+      only its actions. On every turn it fixes what it saw and proves that its
+      response, act or hold, came from that under a policy it can never quietly
+      swap. Going dark is not an option, because going dark would mean forging a
+      proof that it observed nothing, and that proof cannot exist.
+    </p>
+  </section>
+
+  <hr />
+
+  <section class="mech">
+    <h2>The loop</h2>
+    <p>
+      One observation, one decision, one proof, again and again. The policy is
+      set the moment NOCTTY is born and never moves. It runs this loop for its
+      whole life, and the vast majority of passes end in do nothing.
+    </p>
+<pre class="asciiart"><span class="flow">┌→</span>  <span class="k">Observe</span>   <span class="f">oₜ</span>
+<span class="flow">│</span>       <span class="flow">↓</span>
+<span class="flow">│</span>   <span class="k">Decide</span>    <span class="f">aₜ = Policy_M(oₜ)</span>
+<span class="flow">│</span>       <span class="flow">↓</span>
+<span class="flow">│</span>   <span class="k">Prove</span>     <span class="f">πₜ</span>
+<span class="flow">│</span>       <span class="flow">↓</span>
+<span class="flow">│</span>   <span class="k">Append</span>    History
+<span class="flow">│</span>       <span class="flow">↓</span>
+<span class="flow">└─</span>  <span class="cap">Repeat, every step</span>
+</pre>
+    <p class="dcap">The policy M is fixed at birth. Every pass, hold included, leaves a proof.</p>
+  </section>
+
+  <hr />
+
+  <section class="spec">
+    <h2>Proof of restraint</h2>
+    <div class="claim">
+      Every transition ships a proof <span class="f">πₜ</span> that its decision
+      follows from a committed observation under the pinned policy
+      <span class="f">M</span>, even when that decision is to do nothing. Any
+      transition without a valid <span class="f">πₜ</span> is rejected on sight.
+    </div>
+    <dl>
+      <div><dt>Decision</dt><dd><code class="f">aₜ = Policy_M(oₜ)</code>, hold included</dd></div>
+      <div><dt>Policy</dt><dd>M, fixed at birth, hash committed</dd></div>
+      <div><dt>Proof</dt><dd><code class="f">πₜ</code>, on every transition</dd></div>
+      <div><dt>History</dt><dd>Signed, append only</dd></div>
+      <div><dt>Chain</dt><dd>Solana</dd></div>
+    </dl>
+  </section>
+
+  <hr />
+
+  <section class="ledger">
+    <h2>A night</h2>
+    <p>
+      Every turn becomes a signed block, a hold as much as a strike, and each one
+      carries the hash of the block before it. A full night reads as a long line
+      of holds with, at most, a single strike in it. Rewrite any past block and
+      every hash downstream shatters. A hold with no proof behind it is not a
+      block at all.
+    </p>
+<pre class="asciiart"><span class="cap">Genesis</span>  <span class="flow">┃·············</span><span class="hit">◆</span><span class="flow">·············┃</span>  <span class="cap">Now</span>
+</pre>
+    <p class="dcap">Each dot is a signed hold. The single mark is the night's one strike.</p>
+  </section>
+
+  <hr />
+
+  <section class="die">
+    <h2>How it dies</h2>
+    <p>
+      There is exactly one way for NOCTTY to die: hand the verifier a
+      transition it cannot check. A forged proof, a hold it cannot justify, a
+      swapped policy, any of these ends it, and there is no coming back from a
+      broken proof. Everything short of that, sitting silent for a week included,
+      is the animal doing its job.
+    </p>
+<pre class="asciiart"><span class="k">Watch</span>  <span class="flow">⇄</span>  <span class="k">Strike</span>     <span class="cap">Both are signed, normal turns</span>
+  <span class="flow">│</span>
+  <span class="hit">✗</span>  <span class="cap">No valid proof</span>
+  <span class="flow">↓</span>
+<span class="hit">Dead</span>            <span class="cap">No way back</span>
+</pre>
+  </section>
+
+  <hr />
+
+  <section class="status">
+    <h2>Roadmap</h2>
+    <div class="srow"><span class="k">Now</span><p>The full loop and signed history run today, off chain.</p></div>
+    <div class="srow"><span class="k">Next</span><p>A Groth16 circuit that proves a decision follows from a committed observation, without revealing it.</p></div>
+    <div class="srow"><span class="k">Later</span><p>A Solana program that verifies πₜ on chain and rejects any unproven transition.</p></div>
+  </section>
+
+  <hr />
+
+  <section class="notes">
+    <h2>Questions</h2>
+    <div class="qa"><p class="q">Is it trained?</p><p class="a">No. The policy is fixed and public from the first block. NOCTTY has a temperament, not a model that learns. It only decides.</p></div>
+    <div class="qa"><p class="q">Isn't doing nothing just nothing?</p><p class="a">Not here. Every hold is a signed decision with a proof behind it. The stillness is the product, and all of it is on the record.</p></div>
+    <div class="qa"><p class="q">Can it be told to look away?</p><p class="a">It can be told anything. It cannot produce a valid transition that hides what it saw. A bribe buys silence everywhere except the one place that matters, the proof.</p></div>
+  </section>
+
+</main>
+
+<footer>
+  <span>NOCTTY</span>
+  <span>An on chain agent that signs its silence</span>
+</footer>
+
+<script>
+(function(){
+  const media = window.matchMedia('(max-width: 900px)');
+  const EYES = [
+    {o:'◉v◉', c:'-v-'},
+    {o:'⊙v⊙', c:'-v-'},
+    {o:'◎ᴥ◎', c:'-ᴥ-'},
+    {o:'°v°', c:'-v-'},
+    {o:'ovo', c:'-v-'},
+    {o:'⊚‸⊚', c:'-‸-'},
+    {o:'•ᵕ•', c:'-ᵕ-'},
+    {o:'0-0', c:'- -'},
+    {o:'ØvØ', c:'-v-'}
+  ];
+  const COLORS = ['#2e9bff','#39d353','#a6f21a','#ff4438','#7ad7ff','#c9d6df'];
+  const EYE_H = 24, COL_W = 40;
+  const fields = {};
+  ['left','right'].forEach(side=>{
+    const f = document.createElement('div');
+    f.className = 'eyefield ' + side;
+    document.body.appendChild(f);
+    fields[side] = { el:f, w:0, cols:[] };
+  });
+  function rnd(a,b){ return a + Math.random()*(b-a); }
+  function layout(){
+    const g = Math.max(0, (window.innerWidth - 680) / 2);
+    ['left','right'].forEach(side=>{
+      const F = fields[side];
+      F.w = g; F.el.style.width = g + 'px';
+      const n = Math.max(1, Math.floor(g / COL_W));
+      if (F.cols.length !== n) F.cols = new Array(n).fill(0);
+    });
+  }
+  layout();
+  window.addEventListener('resize', layout);
+
+  const live = [];
+  function blink(el, data){
+    (function tick(){
+      el.textContent = data.c;
+      setTimeout(()=>{ el.textContent = data.o; }, rnd(120,260));
+      setTimeout(tick, rnd(1800,5200));
+    })();
+  }
+  function spawn(){
+    if (!media.matches){
+      const side = Math.random() < 0.5 ? 'left' : 'right';
+      const F = fields[side];
+      if (F.w){
+        const maxSlots = Math.floor(window.innerHeight / EYE_H) - 1;
+        const avail = [];
+        F.cols.forEach((c,i)=>{ if (c < maxSlots) avail.push(i); });
+        if (avail.length){
+          const col = avail[Math.floor(Math.random()*avail.length)];
+          const slot = F.cols[col]; F.cols[col] = slot + 1;
+          const data = EYES[Math.floor(Math.random()*EYES.length)];
+          const el = document.createElement('div');
+          el.className = 'eye';
+          el.textContent = data.o;
+          el.style.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+          el.style.left = (col*COL_W + rnd(0,4)) + 'px';
+          el.style.top = '-30px';
+          F.el.appendChild(el);
+          blink(el, data);
+          live.push({ el, y:-30, vy:rnd(18,42), targetY: window.innerHeight - (slot+1)*EYE_H });
+        }
+      }
+    }
+    setTimeout(spawn, rnd(700,2000));
+  }
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(0.05, (now-last)/1000); last = now;
+    for (let i=live.length-1; i>=0; i--){
+      const e = live[i];
+      e.y += e.vy*dt;
+      if (e.y >= e.targetY){ e.y = e.targetY; e.el.style.top = e.y+'px'; live.splice(i,1); continue; }
+      e.el.style.top = e.y+'px';
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  spawn();
+})();
+</script>
+
+<script src="code-rain.js"></script>
+</body>
+</html>
